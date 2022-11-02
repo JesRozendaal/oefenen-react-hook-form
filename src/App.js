@@ -3,7 +3,7 @@ import './App.css';
 import {useForm} from "react-hook-form";
 
 function App() {
-    const {register, handleSubmit} = useForm();
+    const {register, handleSubmit, formState: {errors}} = useForm();
 
     function onFormSubmit(data) {
         console.log(data);
@@ -18,21 +18,28 @@ function App() {
     Naam:
     <input
         type="text"
-        name="name"
         id="details-name"
-        {...register("name")}
+        {...register("name", {
+            required: "Naam mag niet leeg zijn",
+        })}
         />
         </label>
+              {errors.name && <p>{errors.name.message}</p>}
 
               <label htmlFor="details-age">
                   Leeftijd:
                   <input
-                      type="text"
-                      name="name"
+                      type="number"
                       id="details-age"
-                      {...register("age")}
+                      {...register("age", {
+                          max: {
+                              value: 80,
+                              message: "U mag maximaal 80 jaar oud zijn",
+                          }
+                      })}
                       />
               </label>
+              {errors.age && <p>{errors.age.message}</p>}
           </fieldset>
 
           <fieldset>
@@ -41,7 +48,13 @@ function App() {
               <label htmlFor="recipe-comments">
                   Opmerkingen:
                   <textarea
-                      {...register("comments")}
+                      {...register("comments", {
+                          required: true,
+                          maxLength: {
+                              value: 50,
+                              message: "Er mogen maximaal 50 karakters gebruikt worden",
+                          },
+                      })}
                       id="recipe-comments"
                       rows="4"
                       cols="40"
@@ -49,6 +62,7 @@ function App() {
                       >
                       </textarea>
               </label>
+              {errors.comments && <p>{errors.comments.message}</p>}
 
 <label htmlFor="recipe-newsletter">
     <input
