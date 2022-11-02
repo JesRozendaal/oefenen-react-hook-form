@@ -3,10 +3,14 @@ import './App.css';
 import {useForm} from "react-hook-form";
 
 function App() {
-    const {register} = useForm();
+    const {register, handleSubmit} = useForm();
+
+    function onFormSubmit(data) {
+        console.log(data);
+    }
 
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onFormSubmit)}>
           <fieldset>
               <legend>Gegevens</legend>
 
