@@ -3,7 +3,8 @@ import './App.css';
 import {useForm} from "react-hook-form";
 
 function App() {
-    const {register, handleSubmit, formState: {errors}} = useForm();
+    const {register, handleSubmit, formState: {errors}, watch} = useForm();
+    const selectedReferrer = watch('found-through');
 
     function onFormSubmit(data) {
         console.log(data);
@@ -71,6 +72,23 @@ function App() {
         />
     Ik schrijf me in voor de nieuwsbrief
 </label>
+
+              <label htmlFor="referrer">
+                  Hoe heb je dit recept gevonden?
+                  <select id="referrer" {...register("found-through")} >
+                      <option value="google">Google</option>
+                      <option value="friend">Vriend</option>
+                      <option value="advertisement">Advertentie</option>
+                      <option value="other">Anders</option>
+                  </select>
+              </label>
+
+              {selectedReferrer === "other" &&
+              <input
+                  type="text"
+                  {...register("found-through-anders")}
+              />
+              }
 
               <button type="submit">
                   Versturen
